@@ -1,0 +1,102 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct student *addlast(struct student *ptr);
+struct student *delete(struct student *ptr,int m);
+struct student
+{
+        int roll;
+        struct student *link;
+};
+int main()
+{
+        struct student *head=NULL;
+    int m;
+    printf("enter the node to delete:\n");
+    scanf("%d",&m);
+        int choice;
+        while(1)
+        {
+                printf("1.Addlast  2.delete 3.diplay 4.exit\n");
+                printf("enter the choice");
+                scanf("%d",&choice);
+                switch(choice)
+                {
+                        case 1:head=addlast(head);
+                               break;
+                        case 2:head=delete(head,m);
+                               break;
+                        case 3:display(head);
+                               break;
+                        case 4:exit(0);
+                }
+        }
+}
+struct student *addlast(struct student *ptr)
+{
+        struct student *newnode=NULL,*temp=NULL;
+        newnode=calloc(1,sizeof(struct student));
+        if(newnode==NULL)
+        {
+                printf("node not created :\n");
+        }
+        else
+        {
+        printf("enter the roll:\n");
+        scanf("%d",&newnode->roll);
+        if(ptr==NULL)
+        {
+                ptr=newnode;
+        }
+        else
+        {
+                temp=ptr;
+                while(temp->link)
+                {
+                           temp=temp->link;
+
+                }
+                temp->link=newnode;
+        }
+    }
+        return ptr;
+}
+struct student *delete(struct student *ptr,int m)
+{
+    struct student *temp=NULL,*current,*prev;
+    int count=0,pos;
+    temp=ptr;
+    while(temp)
+    {
+        count++;
+        temp=temp->link;
+    }
+    pos=count-m+1;
+    count=0;
+    temp=ptr;
+    while(temp)
+    {
+        count++;
+        prev=temp;
+        current=temp=temp->link;
+            if((pos-1)==count)
+                        break;
+    }
+    prev->link=current->link;
+    free(temp);
+    return ptr;
+}
+void display(struct student *ptr)
+{
+                if(ptr==NULL)
+                {
+                        printf("list is empty:\n");
+                }
+                else
+                {
+                        while(ptr)
+                        {
+                                printf("%d\n",ptr->roll);
+                                ptr=ptr->link;
+                        }
+                }
+}
